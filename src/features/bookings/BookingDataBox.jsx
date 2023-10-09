@@ -3,7 +3,6 @@ import { format, isToday } from "date-fns";
 import {
   HiOutlineChatBubbleBottomCenterText,
   HiOutlineCheckCircle,
-  HiOutlineCurrencyDollar,
   HiOutlineCurrencyRupee,
   HiOutlineHomeModern,
 } from "react-icons/hi2";
