@@ -1,15 +1,16 @@
 import { useForm } from 'react-hook-form';
-import Button from 'ui/Button';
-import Form from 'ui/Form';
-import FormRow from 'ui/FormRow';
-import Input from 'ui/Input';
+import Button from '../../ui/Button';
+import Form from '../../ui/Form';
+import FormRow from '../../ui/FormRow';
+import Input from '../../ui/Input';
 import { useUpdateUser } from './useUpdateUser';
+import SpinnerMini from '../../ui/SpinnerMini';
 
 function UpdatePasswordForm() {
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
 
-  const { mutate: updateUser, isLoading: isUpdating } = useUpdateUser();
+  const {  updateUser, isLoading: isUpdating } = useUpdateUser();
 
   function onSubmit({ password }) {
     updateUser({ password }, { onSuccess: () => reset() });
@@ -29,7 +30,6 @@ function UpdatePasswordForm() {
         <Input
           type='password'
           id='password'
-          // this makes the form better for password managers
           autoComplete='current-password'
           disabled={isUpdating}
           {...register('password', {
@@ -62,7 +62,7 @@ function UpdatePasswordForm() {
         <Button onClick={handleReset} type='reset' variation='secondary'>
           Cancel
         </Button>
-        <Button disabled={isUpdating}>Update password</Button>
+        <Button disabled={isUpdating}>{!isUpdating ? "Update password": <SpinnerMini/>}</Button>
       </FormRow>
     </Form>
   );

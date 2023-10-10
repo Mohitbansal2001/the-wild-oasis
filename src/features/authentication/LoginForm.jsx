@@ -24,30 +24,6 @@ function LoginForm() {
   }
 
   return (
-    // <Form onSubmit={handleSubmit}>
-    //   <FormRow label="Email address" orientation="vertical">
-    //     <Input
-    //       type="email"
-    //       id="email"
-    //       // This makes this form better for password managers
-    //       autoComplete="username"
-    //       value={email}
-    //       onChange={(e) => setEmail(e.target.value)}
-    //     />
-    //   </FormRow>
-    //   <FormRow label="Password" orientation="vertical">
-    //     <Input
-    //       type="password"
-    //       id="password"
-    //       autoComplete="current-password"
-    //       value={password}
-    //       onChange={(e) => setPassword(e.target.value)}
-    //     />
-    //   </FormRow>
-    //   <FormRow orientation="vertical">
-    //     <Button size="large">Login</Button>
-    //   </FormRow>
-    // </Form>
     <Form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="email" className="form-label">
