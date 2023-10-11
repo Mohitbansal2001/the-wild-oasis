@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { box } from 'styles/styles';
+
 
 const DashboardBox = styled.div`
-  ${box}
+
   padding: 3.2rem;
 
   display: flex;

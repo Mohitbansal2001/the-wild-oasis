@@ -1,4 +1,8 @@
+import React from 'react'
+import Heading from "./Heading";
+import Button from "./Button";
 import styled from "styled-components";
+import {HiOutlineArrowPath} from"react-icons/hi2"
 
 const StyledErrorFallback = styled.main`
   height: 100vh;
@@ -29,3 +33,17 @@ const Box = styled.div`
     color: var(--color-grey-500);
   }
 `;
+
+function ErrorFallback({error,resetErrorBoundary}) {
+  return (
+   <StyledErrorFallback>
+    <Box>
+      <Heading  as="h1">Something Went Wrong</Heading>
+      <p>{error.message }</p>
+      <button className='btn fs-1' onClick={resetErrorBoundary}><HiOutlineArrowPath/></button>
+    </Box>
+   </StyledErrorFallback>
+  )
+}
+
+export default ErrorFallback

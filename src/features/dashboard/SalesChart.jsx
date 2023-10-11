@@ -1,4 +1,4 @@
-import { useDarkMode } from 'context/DarkModeContext';
+import { useDarkMode } from '../../Context/DarkModeContext';
 import { eachDayOfInterval, format, isSameDay, subDays } from 'date-fns';
 import {
   Area,
@@ -10,7 +10,7 @@ import {
   YAxis,
 } from 'recharts';
 import styled from 'styled-components';
-import Heading from 'ui/Heading';
+import Heading from '../../ui/Heading';
 import DashboardBox from './DashboardBox';
 
 const StyledSalesChart = styled(DashboardBox)`
@@ -28,7 +28,7 @@ function SalesChart({ bookings, numDays }) {
   const { isDarkMode } = useDarkMode();
 
   const allDates = eachDayOfInterval({
-    start: subDays(new Date(), numDays - 1),
+    start: subDays(new Date(), numDays - 1),   
     end: new Date(),
   });
 
@@ -72,7 +72,7 @@ function SalesChart({ bookings, numDays }) {
             dataKey='label'
             tick={{ fill: colors.text }}
             tickLine={{ stroke: colors.text }}
-          />
+          /> 
           <YAxis
             unit='$'
             tick={{ fill: colors.text }}
