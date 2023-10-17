@@ -141,18 +141,19 @@ function fromToday(numDays, withTime = false) {
 
 const imageUrl = `${supabaseUrl}/storage/v1/object/public/cabin-images/`;
 
-const bookings = [{
-  created_at: fromToday(-3, true),
-  startDate: fromToday(-2),
-  endDate: fromToday(3),
-  cabinId: 1,
-  guestId: 1,
-  hasBreakfast: true,
-  observations:
-    "Hello",
-  isPaid: true,
-  numGuests: 5,
-}];
+const bookings = [
+  {
+    created_at: fromToday(-3, true),
+    startDate: fromToday(-2),
+    endDate: fromToday(3),
+    cabinId: 1,
+    guestId: 1,
+    hasBreakfast: true,
+    observations: "Hello",
+    isPaid: true,
+    numGuests: 5,
+  },
+];
 const guests = {
   fullName: "Mohit Bansal",
   email: "Mohitbansal@gmail.com",
@@ -160,21 +161,21 @@ const guests = {
   nationalID: "3525436345",
   countryFlag: "https://flagcdn.com/us.svg",
 };
-const cabins = [{
-  name: "006",
-  maxCapacity: 6,
-  regularPrice: 800,
-  discount: 100,
-  image: imageUrl + "cabin-006.jpg",
-  description:
-    "Experience the epitome of luxury with your group or family in our spacious wooden cabin 006. Designed to comfortably accommodate up to 6 people, this cabin offers a lavish retreat in the heart of nature. Inside, the cabin features opulent interiors crafted from premium wood, a grand living area with fireplace, and a fully-equipped gourmet kitchen. The bedrooms are adorned with plush beds and spa-like en-suite bathrooms. Step outside to your private deck and soak in the natural surroundings while relaxing in your own hot tub.",
-}];
+const cabins = [
+  {
+    name: "006",
+    maxCapacity: 6,
+    regularPrice: 800,
+    discount: 100,
+    image: imageUrl + "cabin-006.jpg",
+    description:
+      "Experience the epitome of luxury with your group or family in our spacious wooden cabin 006. Designed to comfortably accommodate up to 6 people, this cabin offers a lavish retreat in the heart of nature. Inside, the cabin features opulent interiors crafted from premium wood, a grand living area with fireplace, and a fully-equipped gourmet kitchen. The bedrooms are adorned with plush beds and spa-like en-suite bathrooms. Step outside to your private deck and soak in the natural surroundings while relaxing in your own hot tub.",
+  },
+];
 export async function createBooking() {
   // Bookings need a guestId and a cabinId. We can't tell Supabase IDs for each object, it will calculate them on its own. So it might be different for different people, especially after multiple uploads. Therefore, we need to first get all guestIds and cabinIds, and then replace the original IDs in the booking data with the actual ones from the DB
-  const { data:guestId } = await supabase
-    .from("guests")
-    .select("*")
-    
+  const { data: guestId } = await supabase.from("guests").select("*");
+
   const allGuestIds = guestId.map((guest) => guest.id);
   console.log(allGuestIds);
   const { data: cabinsIds } = await supabase
@@ -186,7 +187,7 @@ export async function createBooking() {
   const finalBookings = bookings.map((booking) => {
     // Here relying on the order of cabins, as they don't have and ID yet
     const cabin = cabins.at(booking.cabinId - 1);
-    console.log(cabin)
+    console.log(cabin);
     const numNights = subtractDates(booking.endDate, booking.startDate);
     const cabinPrice = numNights * (cabin.regularPrice - cabin.discount);
     const extrasPrice = booking.hasBreakfast

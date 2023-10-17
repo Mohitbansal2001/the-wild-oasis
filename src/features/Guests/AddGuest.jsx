@@ -1,5 +1,5 @@
 import React from 'react'
-import CreateCabinForm from '../cabins/CreateCabinForm'
+import CreateGuestForm from "./CreateGuestForm"
 import Button from '../../ui/Button'
 import Modal from '../../ui/Modal'
 
@@ -11,7 +11,7 @@ function AddGuest() {
           <Button>Add new Guest</Button>
         </Modal.Open>
         <Modal.Window name="guest-form">
-          <CreateCabinForm />
+          <CreateGuestForm />
         </Modal.Window>
       </Modal>
     </div>

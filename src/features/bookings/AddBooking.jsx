@@ -10,7 +10,8 @@ function AddBooking() {
   const [isLoading, setIsLoading] = useState(false);
   async function uploadBooking() {
     setIsLoading(true);
-    await createBooking();
+    // await createBooking();
+    await createGuests();
     setIsLoading(false);
   }
 

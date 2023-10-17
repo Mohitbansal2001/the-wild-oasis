@@ -18,6 +18,7 @@ import Checkin from "./pages/Checkin";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import { DarkModeProvider } from "./Context/DarkModeContext";
 import Guests from "./pages/Guests";
+import Flags from "./Flags";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -62,6 +63,7 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
+      {/* <Flags/> */}
 
       <Toaster
         position="top-center"

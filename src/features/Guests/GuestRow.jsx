@@ -6,9 +6,19 @@ import Modal from "../../ui/Modal";
 import Menus from "../../ui/Menus";
 import { HiPencil, HiTrash } from "react-icons/hi2";
 import CreateGuestForm from "./CreateGuestForm";
-import {useDeleteGuest} from "./useDeleteGuest"
+import { useDeleteGuest } from "./useDeleteGuest";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 
+const Img = styled.img`
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* aspect-ratio: 3 / 2; */
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  /* transform: scale(1.5) translateX(-7px); */
+`;
 
 const GuestName = styled.div`
   font-size: 1.6rem;
@@ -22,34 +32,57 @@ const GuestEmail = styled.div`
   color: var(--color-grey-600);
   font-family: "Sono";
 `;
+const StyledInitials = styled.div`
+display:flex;
+justify-content: center;
+align-items: center;
+height:4rem;
+width:4rem;
+border-color:var(-color-grey-900);
+border:2px solid;
+border-radius:50%;`
+
+const ImgDiv=styled.div`
+`
+
 
 function GuestRow({ guest }) {
-    const { isDeleting, deleteGuest } = useDeleteGuest();
-    const {
-        id: guestId,
-        fullName,
-        email,
-        nationality,
-        nationalID,
-        countryFlag,
-    } = guest;
+  const { isDeleting, deleteGuest } = useDeleteGuest();
+  const {
+    id: guestId,
+    fullName,
+    email,
+    nationality,
+    nationalID,
+    countryFlag,
+    image,
+  } = guest;
 
+  let rgx = new RegExp(/(\p{L}{1})\p{L}+/, "gu");
+
+  let initials = [...fullName.matchAll(rgx)] || [];
   
-  return <Table.Row>
-    <img src="" alt="image" />
-    <GuestName>{fullName}</GuestName>
-    <GuestEmail>{email}</GuestEmail>
-    <div>{nationalID}</div>
-    <div className="d-flex">{nationality} &nbsp; <Flag src={countryFlag}/></div>
-    {/* <Flag src={countryFlag}/> */}
-    <div>
+
+  initials = (
+    (initials.shift()?.[1] || "") + (initials.pop()?.[1] || "")
+  ).toUpperCase();
+
+  return (
+    <Table.Row>
+      {!image ? <StyledInitials>{initials}</StyledInitials> :<StyledInitials> <Img src={image} alt="image" /></StyledInitials>}
+      <GuestName>{fullName}</GuestName>
+      <GuestEmail>{email}</GuestEmail>
+      <div>{nationalID}</div>
+      <div className="d-flex">
+        {nationality} &nbsp; <Flag src={countryFlag} />
+      </div>
+      {/* <Flag src={countryFlag}/> */}
+      <div>
         <Modal>
           <Menus.Menu>
             <Menus.Toggle id={guestId} />
 
             <Menus.List id={guestId}>
-              
-
               <Modal.Open opens="edit">
                 <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
               </Modal.Open>
@@ -73,7 +106,8 @@ function GuestRow({ guest }) {
           </Menus.Menu>
         </Modal>
       </div>
-  </Table.Row>;
+    </Table.Row>
+  );
 }
 
 export default GuestRow;
