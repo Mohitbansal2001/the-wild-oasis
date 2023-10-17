@@ -41,6 +41,8 @@ function CabinRow({ cabin }) {
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
+
+  
   const {
     id: cabinId,
     name,
