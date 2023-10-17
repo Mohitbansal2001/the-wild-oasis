@@ -76,17 +76,25 @@ function MainNav() {
           </StyledNavLink>
         </li>
         <li>
+          <StyledNavLink to="/guests">
+          <HiOutlineUsers />
+            <span>Guests</span>
+          </StyledNavLink>
+        </li>
+        <li>
           <StyledNavLink to="/users">
             <HiOutlineUsers />
             <span>Users</span>
           </StyledNavLink>
         </li>
+        
         <li>
           <StyledNavLink to="/settings">
             <HiOutlineCog6Tooth />
             <span>Settings</span>
           </StyledNavLink>
         </li>
+       
       </NavList>
     </nav>
   );
