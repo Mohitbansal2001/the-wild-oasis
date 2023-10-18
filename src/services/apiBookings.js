@@ -9,7 +9,7 @@ export async function getBookings({ filter, sortBy, page }) {
   let query = supabase
     .from("bookings")
     .select(
-      "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, cabins(name), guests(fullName, email)",
+      "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, cabins(name), guests(fullName, email,countryFlag)",
       { count: "exact" }
     );
 
@@ -154,13 +154,13 @@ const bookings = [
     numGuests: 5,
   },
 ];
-const guests = {
-  fullName: "Mohit Bansal",
-  email: "Mohitbansal@gmail.com",
-  nationality: "INDIA",
-  nationalID: "3525436345",
-  countryFlag: "https://flagcdn.com/us.svg",
-};
+// const guests = {
+//   fullName: "Mohit Bansal",
+//   email: "Mohitbansal@gmail.com",
+//   nationality: "INDIA",
+//   nationalID: "3525436345",
+//   countryFlag: "https://flagcdn.com/us.svg",
+// };
 const cabins = [
   {
     name: "006",
@@ -172,66 +172,63 @@ const cabins = [
       "Experience the epitome of luxury with your group or family in our spacious wooden cabin 006. Designed to comfortably accommodate up to 6 people, this cabin offers a lavish retreat in the heart of nature. Inside, the cabin features opulent interiors crafted from premium wood, a grand living area with fireplace, and a fully-equipped gourmet kitchen. The bedrooms are adorned with plush beds and spa-like en-suite bathrooms. Step outside to your private deck and soak in the natural surroundings while relaxing in your own hot tub.",
   },
 ];
-export async function createBooking() {
-  // Bookings need a guestId and a cabinId. We can't tell Supabase IDs for each object, it will calculate them on its own. So it might be different for different people, especially after multiple uploads. Therefore, we need to first get all guestIds and cabinIds, and then replace the original IDs in the booking data with the actual ones from the DB
-  const { data: guestId } = await supabase.from("guests").select("*");
+// export async function createBooking() {
+//   // Bookings need a guestId and a cabinId. We can't tell Supabase IDs for each object, it will calculate them on its own. So it might be different for different people, especially after multiple uploads. Therefore, we need to first get all guestIds and cabinIds, and then replace the original IDs in the booking data with the actual ones from the DB
+//   const { data: guestId } = await supabase.from("guests").select("*");
 
-  const allGuestIds = guestId.map((guest) => guest.id);
-  console.log(allGuestIds);
-  const { data: cabinsIds } = await supabase
-    .from("cabins")
-    .select("id")
-    .order("id");
-  const allCabinIds = cabinsIds.map((cabin) => cabin.id);
+//   const allGuestIds = guestId.map((guest) => guest.id);
+//   console.log(allGuestIds);
+//   const { data: cabinsIds } = await supabase
+//     .from("cabins")
+//     .select("id")
+//     .order("id");
+//   const allCabinIds = cabinsIds.map((cabin) => cabin.id);
 
-  const finalBookings = bookings.map((booking) => {
-    // Here relying on the order of cabins, as they don't have and ID yet
-    const cabin = cabins.at(booking.cabinId - 1);
-    console.log(cabin);
-    const numNights = subtractDates(booking.endDate, booking.startDate);
-    const cabinPrice = numNights * (cabin.regularPrice - cabin.discount);
-    const extrasPrice = booking.hasBreakfast
-      ? numNights * 15 * booking.numGuests
-      : 0; // hardcoded breakfast price
-    const totalPrice = cabinPrice + extrasPrice;
+//   const finalBookings = bookings.map((booking) => {
+//     // Here relying on the order of cabins, as they don't have and ID yet
+//     const cabin = cabins.at(booking.cabinId - 1);
+//     console.log(cabin);
+//     const numNights = subtractDates(booking.endDate, booking.startDate);
+//     const cabinPrice = numNights * (cabin.regularPrice - cabin.discount);
+//     const extrasPrice = booking.hasBreakfast
+//       ? numNights * 15 * booking.numGuests
+//       : 0; // hardcoded breakfast price
+//     const totalPrice = cabinPrice + extrasPrice;
 
-    let status;
-    if (
-      isPast(new Date(booking.endDate)) &&
-      !isToday(new Date(booking.endDate))
-    )
-      status = "checked-out";
-    if (
-      isFuture(new Date(booking.startDate)) ||
-      isToday(new Date(booking.startDate))
-    )
-      status = "unconfirmed";
-    if (
-      (isFuture(new Date(booking.endDate)) ||
-        isToday(new Date(booking.endDate))) &&
-      isPast(new Date(booking.startDate)) &&
-      !isToday(new Date(booking.startDate))
-    )
-      status = "checked-in";
+//     let status;
+//     if (
+//       isPast(new Date(booking.endDate)) &&
+//       !isToday(new Date(booking.endDate))
+//     )
+//       status = "checked-out";
+//     if (
+//       isFuture(new Date(booking.startDate)) ||
+//       isToday(new Date(booking.startDate))
+//     )
+//       status = "unconfirmed";
+//     if (
+//       (isFuture(new Date(booking.endDate)) ||
+//         isToday(new Date(booking.endDate))) &&
+//       isPast(new Date(booking.startDate)) &&
+//       !isToday(new Date(booking.startDate))
+//     )
+//       status = "checked-in";
 
-    return {
-      ...booking,
-      numNights,
-      cabinPrice,
-      extrasPrice,
-      totalPrice,
-      guestId: allGuestIds.at(booking.guestId - 1),
-      cabinId: allCabinIds.at(booking.cabinId - 1),
-      status,
-    };
-  });
+//     return {
+//       ...booking,
+//       numNights,
+//       cabinPrice,
+//       extrasPrice,
+//       totalPrice,
+//       guestId: allGuestIds.at(booking.guestId - 1),
+//       cabinId: allCabinIds.at(booking.cabinId - 1),
+//       status,
+//     };
+//   });
 
-  console.log(finalBookings);
+//   console.log(finalBookings);
 
-  const { error } = await supabase.from("bookings").insert(finalBookings);
-  if (error) console.log(error.message);
-}
-export async function createGuests() {
-  const { error } = await supabase.from("guests").insert(guests);
-  if (error) console.log(error.message);
-}
+//   const { error } = await supabase.from("bookings").insert(finalBookings);
+//   if (error) console.log(error.message);
+// }
+

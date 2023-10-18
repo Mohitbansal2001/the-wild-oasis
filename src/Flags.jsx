@@ -3,10 +3,14 @@ import flags from "./data/flags.json";
 
 
 
-function getValueByKey(object, key) {
-  return Object.values(object).find((value) => object[value] === key);
-}
-const label = flags["in"]
+function getKeyByValue(object, value) { 
+  return Object.keys(object).find(key => 
+      object[key] === value); 
+} 
+const ans = getKeyByValue(flags,"India")
+// console.log(ans)
+
+const label = flags["in"];
 function Flags() {
   return (
     <div>

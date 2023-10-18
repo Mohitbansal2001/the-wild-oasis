@@ -9,7 +9,7 @@ import CreateGuestForm from "./CreateGuestForm";
 import { useDeleteGuest } from "./useDeleteGuest";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 
-const Img = styled.img`
+export const Img = styled.img`
   display: block;
   width: 100%;
   height: 100%;
@@ -74,7 +74,7 @@ function GuestRow({ guest }) {
       <GuestEmail>{email}</GuestEmail>
       <div>{nationalID}</div>
       <div className="d-flex">
-        {nationality} &nbsp; <Flag src={countryFlag} />
+        {nationality.toUpperCase()} &nbsp; <Flag src={countryFlag} />
       </div>
       {/* <Flag src={countryFlag}/> */}
       <div>

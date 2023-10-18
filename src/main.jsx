@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./ui/ErrorFallback";
 
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ErrorBoundary

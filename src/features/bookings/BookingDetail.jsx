@@ -26,7 +26,7 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
-  const { booking, isLoading } = useBooking();
+  const { booking={}, isLoading } = useBooking();
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeleting } = useDeleteBooking();
 
@@ -35,6 +35,7 @@ function BookingDetail() {
 
   
   const { status, id: bookingId } = booking;
+  console.log({booking})
   if (isLoading) return <Spinner />; 
   if(!booking) return <Empty resourceName="booking"/>
 

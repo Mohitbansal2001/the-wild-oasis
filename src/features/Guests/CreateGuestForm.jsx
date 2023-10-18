@@ -27,7 +27,6 @@ function CreateGuestForm({ guestToEdit = {}, onCloseModal }) {
           fullName: "",
           email: "",
           nationalID: NaN,
-          nationality: "",
           countryFlag: "",
           image: null,
         },
@@ -35,10 +34,18 @@ function CreateGuestForm({ guestToEdit = {}, onCloseModal }) {
   const { errors } = formState;
 
   function onSubmit(data) {
-    const image = typeof data.image === "string" ? data.image : data.image[0];
-    const countryFlag = `https://flagcdn.com/${data.nationality}.svg`;
+    const image = typeof data.image === "string" ? data?.image : data?.image[0];
+
+    function getKeyByValue(object, value) {
+      return Object?.keys(object)?.find((key) => object[key] === value);
+    }
+
+    const countryCode = getKeyByValue(flags, data?.nationality);
+    console.log(countryCode);
+    const countryFlag = `https://flagcdn.com/${countryCode}.svg`;
+    // const countryFlag = `https://flagcdn.com/${data?.nationality}.svg`;
     // const nation = data.nationality
-    const nationality = flags[data.nationality].toUpperCase();
+    // const nationality = flags[data?.nationality]?.toUpperCase();
 
     if (isEditSession)
       editGuest(
@@ -56,7 +63,6 @@ function CreateGuestForm({ guestToEdit = {}, onCloseModal }) {
           ...data,
           image: image,
           countryFlag: countryFlag,
-          nationality: nationality,
         },
         {
           onSuccess: (data) => {
@@ -125,16 +131,20 @@ function CreateGuestForm({ guestToEdit = {}, onCloseModal }) {
           })}
         />
       </FormRow> */}
-      <FormRow label="Nationality" error={errors?.nationalID?.message}>
+      <FormRow label="Nationality" error={errors?.nationality?.message}>
         <StyledSelect
+          defaultValue={"default"}
           {...register("nationality", {
-            required: "This field is required",
+            required: isEditSession ? false : "This field is required",
           })}
         >
+          <option value={"default"} disabled>
+            Country Name
+          </option>
           {Object.entries(flags).map(([val, label], idx) => {
             return (
-              <option key={idx} value={val}>
-                {label}
+              <option key={idx} value={label}>
+                {label.toUpperCase()}
               </option>
             );
           })}

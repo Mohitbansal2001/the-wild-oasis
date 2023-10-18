@@ -1,11 +1,21 @@
 import { PAGE_SIZE } from "../utils/constants";
 import supabase, { supabaseUrl } from "./supabase";
+export async function getAllGuests() {
+  const { data, error } = await supabase.from("guests").select("*");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Guests could not be loaded");
+  }
+
+  return data;
+}
 
 export async function getGuests({ page }) {
   let query = supabase.from("guests").select("*", { count: "exact" });
 
   if (page) {
-    console.log({ page });
+    // console.log({ page });
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
     query = query.range(from, to);
