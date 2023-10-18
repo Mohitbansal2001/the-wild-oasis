@@ -80,8 +80,7 @@ function CreateGuestForm({ guestToEdit = {}, onCloseModal }) {
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
-      type={onCloseModal ? "modal" : "regular"}
-    >
+      type={onCloseModal ? "modal" : "regular"}>
       <FormRow label="Guest name" error={errors?.fullName?.message}>
         <Input
           type="text"
@@ -136,8 +135,7 @@ function CreateGuestForm({ guestToEdit = {}, onCloseModal }) {
           defaultValue={"default"}
           {...register("nationality", {
             required: isEditSession ? false : "This field is required",
-          })}
-        >
+          })}>
           <option value={"default"} disabled>
             Country Name
           </option>
@@ -166,8 +164,7 @@ function CreateGuestForm({ guestToEdit = {}, onCloseModal }) {
         <Button
           variation="secondary"
           type="reset"
-          onClick={() => onCloseModal?.()}
-        >
+          onClick={() => onCloseModal?.()}>
           Cancel
         </Button>
         <Button disabled={isWorking}>

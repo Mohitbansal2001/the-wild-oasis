@@ -8,7 +8,7 @@ import Spinner from "../../ui/Spinner";
 import Pagination from "../../ui/Pagination";
 
 function GuestTable() {
-  const { isLoading, guests, count } = useGuests();
+  const { isLoading, guests = {}, count } = useGuests();
   if (isLoading) return <Spinner />;
   if (!guests.length) return <Empty resourceName="guests" />;
   // console.log(count);
