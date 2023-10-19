@@ -104,33 +104,31 @@ function CreateBookingForm({ bookingToEdit = {}, onCloseModal }) {
           },
         }
       );
-    console.log({
-      ...data,
-      numNights: numNights,
-      cabinPrice: cabinPrice,
-      extrasPrice: extrasPrice,
-      totalPrice: totalPrice,
-      status: status,
-    });
+    // console.log({
+    //   ...data,
+    //   numNights: numNights,
+    //   cabinPrice: cabinPrice,
+    //   extrasPrice: extrasPrice,
+    //   totalPrice: totalPrice,
+    //   status: status,
+    // });
   }
 
   function onError(errors) {
-   console.log("Wrong Details booking Form",errors)
+    // console.log("Wrong Details booking Form", errors);
   }
 
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
-      type={onCloseModal ? "modal" : "regular"}
-    >
+      type={onCloseModal ? "modal" : "regular"}>
       <FormRow label={"Start Date:"} error={errors?.startDate?.message}>
         <Input
           type="date"
           id="startDate"
           disabled={isWorking}
-          {...register("startDate",{
+          {...register("startDate", {
             required: "This field is required",
-
           })}
         />
       </FormRow>
@@ -139,20 +137,24 @@ function CreateBookingForm({ bookingToEdit = {}, onCloseModal }) {
           type="date"
           id="endDate"
           disabled={isWorking}
-          {...register("endDate",{
-            required:"This Field is Required",
-            validate:(v)=> v > getValues().startDate || "Please Enter Valid Date"
+          {...register("endDate", {
+            required: "This Field is Required",
+            // valueAsDate: true,
+
+            validate: (v) =>
+              (subtractDates(v, getValues().startDate) >= minBookingLength &&
+                subtractDates(v, getValues().startDate) <= maxBookingLength) ||
+              "Please Enter Valid Date",
           })}
         />
       </FormRow>
       <FormRow label="Cabin Name" error={errors?.cabinId?.message}>
         <StyledSelect
-        defaultValue={"default"}
+          defaultValue={"default"}
           {...register("cabinId", {
             required: "This field is required",
-          })}
-        >
-          <option value={"default"} disabled >
+          })}>
+          <option value={"default"} disabled>
             Name-(Capacity)
           </option>
           {cabins?.map((cabin, idx) => {
@@ -166,13 +168,11 @@ function CreateBookingForm({ bookingToEdit = {}, onCloseModal }) {
       </FormRow>
       <FormRow label="Cabin Price X 1" error={errors?.cabinPrice?.message}>
         <StyledSelect
-        defaultValue={"default"}
-
+          defaultValue={"default"}
           {...register("cabinPrice", {
             required: "This field is required",
-          })}
-        >
-          <option value={"default"} disabled >
+          })}>
+          <option value={"default"} disabled>
             Name-Price-Discount{" "}
           </option>
 
@@ -188,13 +188,11 @@ function CreateBookingForm({ bookingToEdit = {}, onCloseModal }) {
       </FormRow>
       <FormRow label="Guest Name" error={errors?.guestId?.message}>
         <StyledSelect
-        defaultValue={"default"}
-
+          defaultValue={"default"}
           {...register("guestId", {
             required: "This field is required",
-          })}
-        >
-          <option value={"default"} disabled >
+          })}>
+          <option value={"default"} disabled>
             (ID)-Full Name{" "}
           </option>
           {guests?.map((guest, idx) => {
@@ -214,8 +212,7 @@ function CreateBookingForm({ bookingToEdit = {}, onCloseModal }) {
           disabled={isWorking}
           {...register("numGuests", {
             required: "This field is required",
-            validate:(v)=> v <= maxGuestsPerBooking || 
-            "Limit exceeded"
+            validate: (v) => v <= maxGuestsPerBooking || "Limit exceeded",
           })}
         />
       </FormRow>
@@ -248,8 +245,7 @@ function CreateBookingForm({ bookingToEdit = {}, onCloseModal }) {
         <Button
           variation="secondary"
           type="reset"
-          onClick={() => onCloseModal?.()}
-        >
+          onClick={() => onCloseModal?.()}>
           Cancel
         </Button>
         <Button disabled={isWorking}>

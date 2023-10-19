@@ -32,6 +32,6 @@ queryClient.prefetchQuery({
   queryFn: () => getGuests({ page: page - 1 }),
 });
 
-console.log(count)
+// console.log(count)
   return { isLoading, error, guests, count };
 }

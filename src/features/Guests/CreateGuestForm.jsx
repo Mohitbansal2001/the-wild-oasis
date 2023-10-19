@@ -1,13 +1,10 @@
 import { useForm } from "react-hook-form";
-
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
-
 import FormRow from "../../ui/FormRow";
 import { StyledSelect } from "../../ui/Select";
-
 import { useCreateGuest } from "./useCreateGuest";
 import { useEditGuest } from "./useEditGuest";
 import flags from "../../data/flags.json";
@@ -16,10 +13,8 @@ function CreateGuestForm({ guestToEdit = {}, onCloseModal }) {
   const { isCreating, createGuest } = useCreateGuest();
   const { isEditing, editGuest } = useEditGuest();
   const isWorking = isCreating || isEditing;
-
   const { id: editId, ...editValues } = guestToEdit;
   const isEditSession = Boolean(editId);
-
   const { register, handleSubmit, reset, getValues, formState } = useForm({
     defaultValues: isEditSession
       ? editValues
@@ -92,7 +87,7 @@ function CreateGuestForm({ guestToEdit = {}, onCloseModal }) {
         />
       </FormRow>
 
-      <FormRow label="email" error={errors?.email?.message}>
+      <FormRow label="Email" error={errors?.email?.message}>
         <Input
           type="email"
           id="email"
@@ -102,7 +97,7 @@ function CreateGuestForm({ guestToEdit = {}, onCloseModal }) {
             validate: {
               matchPattern: (v) =>
                 /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-                "Email address must be a valid address",
+                "Please enter valid Email address",
             },
           })}
         />
@@ -116,20 +111,11 @@ function CreateGuestForm({ guestToEdit = {}, onCloseModal }) {
           {...register("nationalID", {
             required: "This field is required",
             minLength: 12 || "National ID should be of 12 digit ",
+            // maxLength: 12 || "National ID should be of 12 digit ",
           })}
         />
       </FormRow>
 
-      {/* <FormRow label="Nationality" error={errors?.nationality?.message}>
-        <Input
-          type="text"
-          id="nationality"
-          disabled={isWorking}
-          {...register("nationality", {
-            required: "This field is required",
-          })}
-        />
-      </FormRow> */}
       <FormRow label="Nationality" error={errors?.nationality?.message}>
         <StyledSelect
           defaultValue={"default"}

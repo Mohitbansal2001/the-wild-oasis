@@ -38,7 +38,7 @@ export async function signup({ email, password, fullName }) {
       },
     },
   });
-  console.log(data);
+  // console.log(data);
   if (error) throw new Error(error.message);
   return data;
 }
@@ -53,7 +53,7 @@ export async function UpdateCurrentUser({ fullName, avatar, password }) {
 
   const { data, error } = await supabase.auth.updateUser(updateData);
 
-  console.log(data);
+  // console.log(data);
   if (error) throw new Error(error.message);
   if (!avatar) return data;
   // upload avatar image
