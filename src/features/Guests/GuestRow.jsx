@@ -42,8 +42,7 @@ border-color:var(-color-grey-900);
 border:2px solid;
 border-radius:50%;`
 
-const ImgDiv=styled.div`
-`
+
 
 
 function GuestRow({ guest }) {
