@@ -26,17 +26,17 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
-  const { booking, isLoading } = useBooking();
+  const { booking = {}, isLoading } = useBooking();
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeleting } = useDeleteBooking();
 
   const moveBack = useMoveBack();
   const navigate = useNavigate();
 
-  
   const { status, id: bookingId } = booking;
-  if (isLoading) return <Spinner />; 
-  if(!booking) return <Empty resourceName="booking"/>
+  if (isLoading) return <Spinner />;
+  if (!booking) return <Empty resourceName="booking" />;
+  if(!bookingId) return <Empty resourceName={"Booking Id"}/>
 
   const statusToTagName = {
     unconfirmed: "blue",
@@ -67,8 +67,7 @@ function BookingDetail() {
           <Button
             icon={<HiArrowUpOnSquare />}
             onClick={() => checkout(bookingId)}
-            disabled={isCheckingOut}
-          >
+            disabled={isCheckingOut}>
             Check out
           </Button>
         )}

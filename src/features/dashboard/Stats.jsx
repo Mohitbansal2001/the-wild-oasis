@@ -9,7 +9,7 @@ import Stat from './Stat';
 
 function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
 
-  console.log(cabinCount,numDays)
+  // console.log(cabinCount,numDays)
   // Stat 1)
   const numBookings = bookings.length;
 

@@ -153,8 +153,7 @@ function BookingDataBox({ booking }) {
         {observations && (
           <DataItem
             icon={<HiOutlineChatBubbleBottomCenterText />}
-            label="Observations"
-          >
+            label="Observations">
             {observations}
           </DataItem>
         )}

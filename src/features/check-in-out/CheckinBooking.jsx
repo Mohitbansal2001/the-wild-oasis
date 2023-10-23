@@ -1,13 +1,11 @@
 import styled from "styled-components";
 import BookingDataBox from "../../features/bookings/BookingDataBox";
-
 import Row from "../../ui/Row";
 import Heading from "../../ui/Heading";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
 import Spinner from "../../ui/Spinner";
-
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useBooking } from "../bookings/useBooking";
 import { useEffect, useState } from "react";
@@ -45,13 +43,13 @@ function CheckinBooking() {
     hasBreakfast,
     numNights,
   } = booking;
-  
+
   const optionalBreakfastPrice =
-  settings.breakfastPrice * numNights * numGuests;
-  
+    settings.breakfastPrice * numNights * numGuests;
+
   function handleCheckin() {
     if (!confirmPaid) return;
-    if(!booking) return 
+    if (!booking) return;
 
     if (addBreakfast) {
       checkin({
@@ -84,8 +82,7 @@ function CheckinBooking() {
               setAddBreakfast((add) => !add);
               setConfirmPaid(false);
             }}
-            id="breakfast"
-          >
+            id="breakfast">
             Want to add breakfast for {formatCurrency(optionalBreakfastPrice)}?
           </Checkbox>
         </Box>
@@ -96,8 +93,7 @@ function CheckinBooking() {
           checked={confirmPaid}
           onChange={() => setConfirmPaid((confirm) => !confirm)}
           disabled={confirmPaid || isCheckingIn}
-          id="confirm"
-        >
+          id="confirm">
           I confirm that {guests.fullName} has paid the total amount of{" "}
           {!addBreakfast
             ? formatCurrency(totalPrice)
